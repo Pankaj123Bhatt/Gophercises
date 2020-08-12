@@ -14,7 +14,6 @@ func inputRecieverFunction(ch1 chan string, quit chan int) {
 	for {
 		select {
 		case <-ch1:
-			//fmt.Println(s, "data received !")
 		case <-quit:
 			fmt.Println("\nTimeout, Quiz finished !")
 			fmt.Println("Result :", correctAnswers, "correct out of", totAnswers, "questions !")
@@ -50,16 +49,16 @@ func main() {
 	}
 	file.Close()
 
-	inp := ""
+	input := ""
 	fmt.Printf("Welcome to the GOquiz !!! \nDefault time limit is 30 seconds ! Press 1 to change or 0 to continue.")
-	fmt.Scanf("%s", &inp)
-	if inp == "1" {
+	fmt.Scanf("%s", &input)
+	if input == "1" {
 		fmt.Printf("Enter new time limit in seconds : ")
 		fmt.Scanf("%d", &timer)
 		fmt.Println("Timer successfully changed !")
 	}
 	fmt.Printf("Hit enter to start the quiz !")
-	fmt.Scanf("%s", &inp)
+	fmt.Scanf("%s", &input)
 	file, err = os.Open(path)
 
 	c1 := make(chan string)
@@ -78,9 +77,9 @@ func main() {
 
 		fmt.Println("Q", i, ": What is "+val[0]+" ?")
 		fmt.Printf("Your answer -> ")
-		fmt.Scanf("%s", &inp)
-		c1 <- inp
-		if inp == val[1] {
+		fmt.Scanf("%s", &input)
+		c1 <- input
+		if input == val[1] {
 			correctAnswers++
 		}
 		i++

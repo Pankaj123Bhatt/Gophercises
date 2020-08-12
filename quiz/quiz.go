@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Enter the path of the quiz file.") // /Users/pankajbhatt/Documents/problems.csv
+	fmt.Println("Enter the path of the quiz file.")
 	path := ""
 	fmt.Scanf("%s", &path)
 	file, err := os.Open(path)
