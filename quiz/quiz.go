@@ -3,32 +3,42 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
+	"io"
 	"os"
 )
 
 func main() {
-	file, err := os.Open("/Users/pankajbhatt/Documents/problems.csv")
+	fmt.Println("Enter the path of the quiz file.") // /Users/pankajbhatt/Documents/problems.csv
+	path := ""
+	fmt.Scanf("%s", &path)
+	file, err := os.Open(path)
 	if err != nil {
 		fmt.Println(err)
 	}
 	reader := csv.NewReader(file)
-	records, _ := reader.ReadAll()
+
 	fmt.Printf("Hit enter to start !")
-	inp := ""
-	fmt.Scanf("%s", &inp)
-	tot := 0
-	correct := 0
-
-	for i, val := range records {
-		fmt.Println("Q", (i + 1), ": What is "+val[0]+" ?")
-		fmt.Printf("Your answer -> ")
-		fmt.Scanf("%s", &inp)
-		if inp == val[1] {
-			correct++
+	input := ""
+	fmt.Scanf("%s", &input)
+	totalQuestions := 0
+	correctAnswers := 0
+	i := 1
+	for {
+		records, err := reader.Read()
+		if err == io.EOF {
+			break
 		}
-		tot++
-	}
-	fmt.Println("Quiz finished !")
-	fmt.Println("Result :", correct, "correct out of", tot, "questions !")
 
+		fmt.Println("Q", i, ": What is "+records[0]+" ?")
+		fmt.Printf("Your answer -> ")
+		fmt.Scanf("%s", &input)
+		if input == records[1] {
+			correctAnswers++
+		}
+		totalQuestions++
+		i++
+	}
+
+	fmt.Println("Quiz finished !")
+	fmt.Println("Result :", correctAnswers, "correct out of", totalQuestions, "questions !")
 }
